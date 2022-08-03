@@ -2,11 +2,11 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import RepeatedStratifiedKFold
-from sklearn.model_selection import cross_val_score
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
-from numpy import median
 import numpy as np
+import joblib
+from sklearn.metrics import classification_report
 
 dat = pd.read_csv('data/one_day_pp.csv')
 dat.head()
@@ -43,7 +43,12 @@ rf_random = RandomizedSearchCV(estimator=model, param_distributions=random_grid,
 
 rf_random.fit(X_train, y_train)
 rf_random.best_score_
-n_scores = cross_val_score(model, X_train, y_train, scoring='roc_auc', cv=cv, n_jobs=-1)
+rf_random.best_estimator_
 
-median(n_scores)
+hold_out = pd.DataFrame(X_test.iloc[0, 0:])
+y_pred = rf_random.predict(X_test.iloc[1:, 0:])
 
+print(classification_report(y_test.iloc[1:], y_pred))
+
+hold_out.to_csv('data/hold_out_for_flask.csv')
+joblib.dump(rf_random, 'model/rf_track.joblib')

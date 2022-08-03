@@ -1,11 +1,13 @@
 library(lubridate)
 library(caret)
 
-## logistic regression
 dat <- read.csv('data/one_day.csv')
-dat$created_at <- as.numeric(as_datetime(dat$created_at))
-dat$timestamp <- as.numeric(as_datetime(dat$timestamp))
-dat$updated_at <- as.numeric(as_datetime(dat$updated_at))
+dat$created_at <- as.character(format(as_datetime(dat$created_at),
+                                    format = "%H:%M:%S"))
+dat$timestamp <- as.character(format(as_datetime(dat$timestamp),
+                                     format = "%H:%M:%S"))
+dat$updated_at <- as.character(format(as_datetime(dat$updated_at),
+                                      format = "%H:%M:%S"))
 
 dat$created_from <- NULL # Its only got one value
 

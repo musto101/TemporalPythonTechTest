@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <title>File Upload</title>
+  </head>
+  <body>
+    <h1>File Upload</h1>
+    <form action="{{ url_for('predict')}}"method="post">
+      <p><input type="file" name="file"></p>
+      <p><input type="submit" value="Submit"></p>
+    </form>
+  <br>
+   <br>
+   {{ prediction_text }}
+
+ </div>
+  </body>
+</html>
